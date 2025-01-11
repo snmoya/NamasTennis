@@ -16,11 +16,13 @@ struct MeditationView: View {
     @State private var timerRunning = false
     @State private var showPopup: Bool = false
     let selectedTime: Int
+    let selectedPlayer: String
     
     let totalTime: Int
     // MARK: - INIT
-    init(selectedTime: Int) {
+    init(selectedTime: Int, selectedPlayer: String) {
         self.selectedTime = selectedTime
+        self.selectedPlayer = selectedPlayer
         self.totalTime = selectedTime * 60
         self._timeRemaining = State(initialValue: selectedTime * 60)
     }
@@ -38,7 +40,7 @@ struct MeditationView: View {
                 ZStack {
                     EllipseView(ShapeColor: Color("ColorGreenLight"), ShapeOpacity: 0.1)
                     
-                    Image("nadalMedBF")
+                    Image("\(selectedPlayer)MedBF")
                         .resizable()
                         .scaledToFit()
                         .padding()
@@ -154,5 +156,5 @@ struct MeditationView: View {
 }
 
 #Preview {
-    MeditationView(selectedTime: 5)
+    MeditationView(selectedTime: 5, selectedPlayer: "nadal")
 }

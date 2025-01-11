@@ -11,13 +11,14 @@ struct ContentView: View {
     
     @AppStorage("onstarting") var isStartingScreenActive: Bool = false
     @State private var selectedTime: Int = 10
+    @State private var selectedPlayer: String = "nadal"
     
     var body: some View {
         ZStack {
                 if isStartingScreenActive {
-                    StartingView(selectedTime: $selectedTime)
+                    StartingView(selectedTime: $selectedTime, selectedPlayer: $selectedPlayer)
             } else {
-                MeditationView(selectedTime: selectedTime)
+                MeditationView(selectedTime: selectedTime, selectedPlayer: selectedPlayer)
             }
         }
         .padding()

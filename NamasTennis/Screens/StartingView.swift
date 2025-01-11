@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct StartingView: View {
-    // MARK: - PROPERTY
+    // MARK: - PROPERTIES
     @AppStorage("onstarting") var isOnStartingViewActive: Bool = true
     @Binding var selectedTime: Int
+    @Binding var selectedPlayer: String
     
     @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
     @State private var buttonOffset: CGFloat = 0
     @State private var showTimeSelector: Bool = false
+    @State private var showPlayerSelector: Bool = false
         
     // MARK: - BODY
     var body: some View {
@@ -26,7 +28,6 @@ struct StartingView: View {
                endPoint: .bottom
            )
            .ignoresSafeArea(.all, edges: .all)
-           
            
            VStack(spacing:20) {
                //MARK: - HEADER
@@ -52,7 +53,7 @@ struct StartingView: View {
                ZStack {
                    EllipseView(ShapeColor: .white, ShapeOpacity: 0.2)
                    
-                   Image("nadalUpBF")
+                   Image("\(selectedPlayer)UpBF")
                        .resizable()
                        .scaledToFit()
                    
@@ -60,27 +61,54 @@ struct StartingView: View {
                
                Spacer()
                
-               // MARK: - TIME SELECTOR
-               Button(action: {
-                   showTimeSelector.toggle() // Show pop-up when tapped
-               }) {
-                   HStack {
-                       Image(systemName: "clock") // Clock icon
-                           .font(.title)
-                           .foregroundColor(.white)
+               // MARK: - BUTTONS SECTION
+               
+               HStack(spacing: 40) {
+                   // MARK: - PLAYER SELECTION
+                   Button(action: {
+                       showPlayerSelector.toggle()
+                   }) {
+                       HStack {
+                           Image(systemName: "tennis.racket")
+                               .font(.title)
+                               .foregroundColor(.white)
 
-                       Text("\(selectedTime) min")
-                           .font(.title2)
-                           .fontWeight(.bold)
-                           .foregroundColor(.white)
+                           Text(selectedPlayer.capitalized)
+                               .font(.title2)
+                               .fontWeight(.bold)
+                               .foregroundColor(.white)
+                       }
+                       .padding()
+                       .background(Color.white.opacity(0.2))
+                       .cornerRadius(20)
                    }
-                   .padding()
-                   .background(Color.white.opacity(0.2))
-                   .cornerRadius(20)
+                   .sheet(isPresented: $showPlayerSelector) {
+                       PlayerSelectionView(selectedPlayer: $selectedPlayer)
+                   }
+                   
+                   // MARK: - TIME SELECTION
+                   Button(action: {
+                       showTimeSelector.toggle() // Show pop-up when tapped
+                   }) {
+                       HStack {
+                           Image(systemName: "clock") // Clock icon
+                               .font(.title)
+                               .foregroundColor(.white)
+
+                           Text("\(selectedTime) min")
+                               .font(.title2)
+                               .fontWeight(.bold)
+                               .foregroundColor(.white)
+                       }
+                       .padding()
+                       .background(Color.white.opacity(0.2))
+                       .cornerRadius(20)
+                   }
+                   .sheet(isPresented: $showTimeSelector) {
+                       TimeSelectionView(selectedTime: $selectedTime) // Pass binding
+                   }
                }
-               .sheet(isPresented: $showTimeSelector) {
-                   TimeSelectionView(selectedTime: $selectedTime) // Pass binding
-               }
+
 
                
                //MARK: - FOOTER
@@ -143,10 +171,10 @@ struct StartingView: View {
                
            } //: END VSTACK
         }//: END ZSTACK
-
+       .preferredColorScheme(.dark)
     }
 }
 
 #Preview {
-    StartingView(selectedTime: .constant(5))
+    StartingView(selectedTime: .constant(5), selectedPlayer: .constant("nadal"))
 }
