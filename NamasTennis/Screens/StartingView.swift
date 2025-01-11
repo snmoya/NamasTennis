@@ -9,13 +9,12 @@ import SwiftUI
 
 struct StartingView: View {
     // MARK: - PROPERTY
-    
     @AppStorage("onstarting") var isOnStartingViewActive: Bool = true
+    @Binding var selectedTime: Int
     
     @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
     @State private var buttonOffset: CGFloat = 0
     @State private var showTimeSelector: Bool = false
-    @State private var selectedTime: Int = 10
         
     // MARK: - BODY
     var body: some View {
@@ -149,5 +148,5 @@ struct StartingView: View {
 }
 
 #Preview {
-    StartingView()
+    StartingView(selectedTime: .constant(5))
 }
