@@ -29,6 +29,7 @@ struct MeditationView: View {
                 Spacer()
                 
                 ZStack {
+                    
                     Image("nadalMedBF")
                         .resizable()
                         .scaledToFit()
