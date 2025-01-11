@@ -14,7 +14,9 @@ struct StartingView: View {
     
     @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
     @State private var buttonOffset: CGFloat = 0
-    
+    @State private var showTimeSelector: Bool = false
+    @State private var selectedTime: Int = 10
+        
     // MARK: - BODY
     var body: some View {
        ZStack {
@@ -58,6 +60,29 @@ struct StartingView: View {
                }//: CENTER
                
                Spacer()
+               
+               // MARK: - TIME SELECTOR
+               Button(action: {
+                   showTimeSelector.toggle() // Show pop-up when tapped
+               }) {
+                   HStack {
+                       Image(systemName: "clock") // Clock icon
+                           .font(.title)
+                           .foregroundColor(.white)
+
+                       Text("\(selectedTime) min")
+                           .font(.title2)
+                           .fontWeight(.bold)
+                           .foregroundColor(.white)
+                   }
+                   .padding()
+                   .background(Color.white.opacity(0.2))
+                   .cornerRadius(20)
+               }
+               .sheet(isPresented: $showTimeSelector) {
+                   TimeSelectionView(selectedTime: $selectedTime) // Pass binding
+               }
+
                
                //MARK: - FOOTER
                ZStack {

@@ -15,13 +15,6 @@ struct MeditationView: View {
     var body: some View {
         
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.white , Color("ColorGreen").opacity(0.3)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            
             
             VStack(spacing:20) {
                 // MARK: - HEADER
@@ -29,6 +22,7 @@ struct MeditationView: View {
                 Spacer()
                 
                 ZStack {
+                    EllipseView(ShapeColor: Color("ColorGreenLight"), ShapeOpacity: 0.1)
                     
                     Image("nadalMedBF")
                         .resizable()
